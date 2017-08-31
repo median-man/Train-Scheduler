@@ -48,6 +48,9 @@ function addNewTrain(train) {
 	// convert first train time into a mommentjs object
 	train.firstTime = moment(train.firstTime, "H:mm").unix();
 
+	// convert frequency to an integer
+	train.freq = parseInt(train.freq);
+
 	// 
 
 	// add train to the database
@@ -57,23 +60,55 @@ function addNewTrain(train) {
 // Appends train to table
 function trainAddedToSchedule(train) {
 
+	var mNow = moment();
+
 	// moment for first train time
 	var mFirstTrain = moment.unix(train.firstTime);
 
 	// time since first train
-	var mTimeElapsed = moment().diff(mFirstTrain);
+	var minElapsed = moment().diff(mFirstTrain, 'minutes');
 
-	console.log(mTimeElapsed);
+	// time until next train
+	var minToNext = train.freq - minElapsed % train.freq;
 
-
-	// calculate next arrival and minutes away
-	train.nextArrival = moment();
+	// time of next train
+	var timeNext = moment().add(minToNext, "m").format("h:mm A");
 
 	// create a new row
+	var row = $("<tr>");
 
 	// add data to the row
+	$("<td>").text(train.name).appendTo(row);
+	$("<td>").text(train.dest).appendTo(row);
+	$("<td>").text(train.freq).appendTo(row);
+	$("<td>").text(timeNext).appendTo(row);
+	$("<td>").text(minToNext).appendTo(row);
 
 	// append the row
-
+	$("tbody").append(row);
 }
 
+// update the next arrival and minutes away every 5 seconds
+/*setInterval( function() {
+
+	// get the rows
+	rows = $("tr");
+
+	// loop over the rows updating the next arrival and minutes away
+
+
+	var mNow = moment();
+
+	// moment for first train time
+	var mFirstTrain = moment.unix(train.firstTime);
+
+	// time since first train
+	var minElapsed = moment().diff(mFirstTrain, 'minutes');
+
+	// time until next train
+	var minToNext = train.freq - minElapsed % train.freq;
+
+	// time of next train
+	var timeNext = moment().add(minToNext, "m").format("h:mm A");
+
+}, 5000);*/
