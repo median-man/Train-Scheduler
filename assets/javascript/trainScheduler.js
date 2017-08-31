@@ -27,7 +27,6 @@ $("#btnSubNewTrain").on("click", function(event) {
 	// page
 	event.preventDefault();
 
-
 	// get data from the form
 	var train = {};
 	train.name = $("#txtTrainName").val().trim();
@@ -50,8 +49,6 @@ function addNewTrain(train) {
 
 	// convert frequency to an integer
 	train.freq = parseInt(train.freq);
-
-	// 
 
 	// add train to the database
 	database.ref().push(train);
@@ -87,28 +84,3 @@ function trainAddedToSchedule(train) {
 	// append the row
 	$("tbody").append(row);
 }
-
-// update the next arrival and minutes away every 5 seconds
-/*setInterval( function() {
-
-	// get the rows
-	rows = $("tr");
-
-	// loop over the rows updating the next arrival and minutes away
-
-
-	var mNow = moment();
-
-	// moment for first train time
-	var mFirstTrain = moment.unix(train.firstTime);
-
-	// time since first train
-	var minElapsed = moment().diff(mFirstTrain, 'minutes');
-
-	// time until next train
-	var minToNext = train.freq - minElapsed % train.freq;
-
-	// time of next train
-	var timeNext = moment().add(minToNext, "m").format("h:mm A");
-
-}, 5000);*/
