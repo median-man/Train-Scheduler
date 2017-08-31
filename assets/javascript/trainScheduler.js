@@ -20,26 +20,6 @@ database.ref().on("child_added", function(trainSnap, prevTrainKey) {
 	trainAddedToSchedule(trainSnap.toJSON());
 });
 
-// get form data and save it to the database whenever user clicks submit
-$("#btnSubNewTrain").on("click", function(event) {
-
-	// prevent form from attempting to submit form and reloading the
-	// page
-	event.preventDefault();
-
-	// get data from the form
-	var train = {};
-	train.name = $("#txtTrainName").val().trim();
-	train.dest = $("#txtDestination").val().trim();
-	train.firstTime = $("#txtFirstTrain").val().trim();
-	train.freq = $("#txtFrequency").val().trim();
-
-	// reset the form
-	$("txtTrainName, #txtDestination, #txtFirstTrain, #txtFrequency").val("");
-
-	// handle form data
-	addNewTrain(train);
-});
 
 // Adds train to database
 function addNewTrain(train) {
@@ -84,3 +64,26 @@ function trainAddedToSchedule(train) {
 	// append the row
 	$("tbody").append(row);
 }
+
+$(document).ready( function() {
+	// get form data and save it to the database whenever user clicks submit
+	$("#btnSubNewTrain").on("click", function(event) {
+
+		// prevent form from attempting to submit form and reloading the
+		// page
+		event.preventDefault();
+
+		// get data from the form
+		var train = {};
+		train.name = $("#txtTrainName").val().trim();
+		train.dest = $("#txtDestination").val().trim();
+		train.firstTime = $("#txtFirstTrain").val().trim();
+		train.freq = $("#txtFrequency").val().trim();
+
+		// reset the form
+		$("txtTrainName, #txtDestination, #txtFirstTrain, #txtFrequency").val("");
+
+		// handle form data
+		addNewTrain(train);
+	});
+});
