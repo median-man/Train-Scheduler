@@ -16,12 +16,8 @@ var database = firebase.database();
 // added. each child is an object containing data for one train.
 database.ref().on("child_added", function(trainSnap, prevTrainKey) {
 
-	// TODO:
-	// finish adding trains and render them
-	var myTrain = {
-
-	};
-	console.log(trainSnap.val());
+	// notify train added
+	trainAddedToSchedule(trainSnap.toJSON());
 });
 
 // get form data and save it to the database whenever user clicks submit
@@ -48,7 +44,36 @@ $("#btnSubNewTrain").on("click", function(event) {
 
 // Adds train to database
 function addNewTrain(train) {
+
+	// convert first train time into a mommentjs object
+	train.firstTime = moment(train.firstTime, "H:mm").unix();
+
+	// 
+
+	// add train to the database
 	database.ref().push(train);
-	console.log(train);
+}
+
+// Appends train to table
+function trainAddedToSchedule(train) {
+
+	// moment for first train time
+	var mFirstTrain = moment.unix(train.firstTime);
+
+	// time since first train
+	var mTimeElapsed = moment().diff(mFirstTrain);
+
+	console.log(mTimeElapsed);
+
+
+	// calculate next arrival and minutes away
+	train.nextArrival = moment();
+
+	// create a new row
+
+	// add data to the row
+
+	// append the row
+
 }
 
