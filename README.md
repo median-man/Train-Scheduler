@@ -1,15 +1,13 @@
 # Train Scheduler
-Scheduling application that uses Firebase and Mommentjs.
-
-Train Scheduler was built to meet the requirements of the 7th homework
-assignment for the [UCSD Coding Bootcamp](https://codingbootcamp.extension.ucsd.edu/).
+Scheduling application that uses Firebase and Mommentjs to continually display
+data in real time without refreshing the page.
 
 ## Using the App
-See a live example of the app [here](https://median-man.github.io/Train-Scheduler/).
+See a live demo of the app [here](https://median-man.github.io/Train-Scheduler/).
 
 The Train Scheduler connects to Firebase and loads the list of all the
-current trains entered by users. The app will continue to update this
-list in real-time as users add trains.
+current trains entered by users. The app will continue to add trains to the list
+whenever a new train gets added to the database by any user.
 
 Trains may be added to the database using the provided form on the 
 page.
