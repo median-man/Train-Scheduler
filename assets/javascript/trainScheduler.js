@@ -58,6 +58,9 @@ function updateTimes() {
 
 // Appends train to table
 function trainAddedToSchedule(train) {
+  // convert time to time stamp
+  train.firstTime = moment(train.firstTime, 'H:mm').unix();
+
   // get times to display
   const times = getTimes(train.firstTime, train.freq);
 
@@ -88,14 +91,14 @@ $(document).ready(() => {
     event.preventDefault();
 
     // convert time to unix timestamp
-    let firstTime = $('#txtFirstTrain').val().trim();
-    firstTime = moment(firstTime, 'H:mm').unix();
+    // let firstTime = $('#txtFirstTrain').val().trim();
+    // firstTime = moment(firstTime, 'H:mm').unix();
     
     // get user input and pass it to handler 
     addNewTrain({
       name: $('#txtTrainName').val().trim(),
       dest: $('#txtDestination').val().trim(),
-      firstTime,
+      firstTime: $('#txtFirstTrain').val().trim(),
       freq: parseInt($('#txtFrequency').val().trim()),
     });
 
