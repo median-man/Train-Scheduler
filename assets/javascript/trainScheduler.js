@@ -20,10 +20,11 @@ function addNewTrain(train) {
 // Function to calculate and format minutes to next train and next train time
 function getTimes(tsFirst, frequency) {
   // calculate minutes to next train and next train time
+  const mNow = moment();
   const mFirstTrain = moment.unix(tsFirst);
-  const minElapsed = moment().diff(mFirstTrain, 'minutes');
+  const minElapsed = mNow.diff(mFirstTrain, 'minutes');
   const minToNext = frequency - minElapsed % frequency;
-  const timeNext = moment().add(minToNext, 'm').format('h:mm A');
+  const timeNext = mNow.add(minToNext, 'm').format('h:mm A');
   return { minToNext, timeNext };
 }
 
@@ -37,15 +38,20 @@ function updateTimes() {
     const $nextTime = $row.children().eq(3);
     const $minutes = $row.children().eq(4);
     const times = getTimes(trainData.tsFirstTrain, trainData.frequency);
-
+    
     // update text with fade in/out if value changed
     if ($nextTime.text() !== times.timeNext) {
-      $($nextTime, $minutes).fadeOut(200, () => {
+      $nextTime.fadeOut(200, () => {
         $nextTime.text(times.timeNext);
-        $minutes.text(times.minToNext);
-        $($nextTime, $minutes).fadeIn();
+        $nextTime.fadeIn();
       });
-    }    
+    }
+    if (parseInt($minutes.text(), 10) !== times.minToNext) {
+      $minutes.fadeOut(200, () => {
+        $minutes.text(times.minToNext);
+        $minutes.fadeIn();
+      });
+    }
   });
 }
 
