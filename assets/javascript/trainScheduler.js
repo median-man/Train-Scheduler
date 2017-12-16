@@ -24,7 +24,8 @@ function getTimes(tsFirst, frequency) {
   const mFirstTrain = moment.unix(tsFirst);
   const minElapsed = mNow.diff(mFirstTrain, 'minutes');
   const minToNext = frequency - minElapsed % frequency;
-  const timeNext = mNow.add(minToNext, 'm').format('h:mm A');
+  let timeNext = mNow.isBefore(mFirstTrain, 'minute') ? mFirstTrain : mNow.add(minToNext, 'm');
+  timeNext = timeNext.format('h:mm A');
   return { minToNext, timeNext };
 }
 
@@ -106,5 +107,4 @@ $(document).ready(() => {
 // TODO Bug Fix:
 //    Bug where next arrival is inccorrect. Current time was 7:41 AM. Added train with first 
 //    time of 7:43 and interval of 10 min. Scheduled a next arrival of 7:52 AM. with minutes away of 11.
-//    * round times off to the minute before saving them.
-//    * check math for cases where start time falls after current time. (start time - now < interval and start time - now > interval)
+//    * check math for cases where start time falls after current time.
