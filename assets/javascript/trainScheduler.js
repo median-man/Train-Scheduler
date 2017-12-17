@@ -57,16 +57,15 @@ function updateTimes() {
 }
 
 // Appends train to table
-function trainAddedToSchedule(train) {
+function trainAddedToSchedule(train, key) {
   // convert time to time stamp
   train.firstTime = moment(train.firstTime, 'H:mm').unix();
 
   // get times to display
   const times = getTimes(train.firstTime, train.freq);
 
-  // add row to table
-  const $row = $('<tr>')
-    // store data for updating displayed times
+  // add row to table and store train data with the row
+  const $row = $('<tr>').attr('id', key)
     .data({ tsFirstTrain: train.firstTime, frequency: train.freq })
     .addClass('train')
     .hide()
@@ -76,12 +75,28 @@ function trainAddedToSchedule(train) {
   $('<td>').text(train.freq).appendTo($row);
   $('<td>').text(times.timeNext).appendTo($row);
   $('<td>').text(times.minToNext).appendTo($row);
+  $('<td>').append('<span class="glyphicon glyphicon-remove pointer" aria-hidden="true"></span>').appendTo($row);
   $row.fadeIn();
 }
 
+// Function to remove a row from the train table.
+function trainRemoved(key) {
+  $(`#${key}`).fadeOut().slideUp(() => $(`#${key}`).remove());
+}
+
+// Remove train from database when remove icon is clicked.
+$(document).on('click', '.glyphicon-remove', function handleRemoveClick() {
+  // the id of the containing row is the key for the database record
+  const key = $(this).parents('tr').attr('id');
+  database.ref(key).remove();  
+});
+
 $(document).ready(() => {
   // display new trains when added to database
-  database.ref().on('child_added', trainSnap => trainAddedToSchedule(trainSnap.val()));
+  database.ref().on('child_added', trainSnap => trainAddedToSchedule(trainSnap.val(), trainSnap.key));
+
+  // remove train from display if train remove from database
+  database.ref().on('child_removed', trainSnap => trainRemoved(trainSnap.key));
 
   // update train times every 5 seconds
   setInterval(updateTimes, 5000);

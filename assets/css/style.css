@@ -1,3 +1,7 @@
 .container {
   min-width: 430px;
 }
+
+.pointer {
+  cursor: pointer;
+}
