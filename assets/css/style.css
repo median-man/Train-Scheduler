@@ -5,3 +5,7 @@
 .pointer {
   cursor: pointer;
 }
+
+.first-train:after {
+  content: "*";
+}

@@ -11,6 +11,12 @@ firebase.initializeApp(config);
 
 // globals
 const database = firebase.database();
+const firstTrainTooltipOpts = {
+  animation: true,
+  title: 'First scheduled train.',
+  placement: 'auto',
+  container: 'body',
+};
 
 // Format user input and add to database
 function addNewTrain(train) {
@@ -23,10 +29,15 @@ function getTimes(tsFirst, frequency) {
   const mNow = moment();
   const mFirstTrain = moment.unix(tsFirst);
   const minElapsed = mNow.diff(mFirstTrain, 'minutes');
-  const minToNext = frequency - minElapsed % frequency;
-  let timeNext = mNow.isBefore(mFirstTrain, 'minute') ? mFirstTrain : mNow.add(minToNext, 'm');
+  let minToNext = frequency - minElapsed % frequency;
+  let timeNext = mNow.add(minToNext, 'm');
+  let isFirst = mNow.isBefore(mFirstTrain, 'minute');
+  if (isFirst) {
+    timeNext = mFirstTrain;
+    minToNext = -minElapsed;
+  }
   timeNext = timeNext.format('h:mm A');
-  return { minToNext, timeNext };
+  return { minToNext, timeNext, isFirst };
 }
 
 // Function to update train times for every row from data stored in element
@@ -43,14 +54,17 @@ function updateTimes() {
     // update text with fade in/out if value changed
     if ($nextTime.text() !== times.timeNext) {
       $nextTime.fadeOut(200, () => {
-        $nextTime.text(times.timeNext);
-        $nextTime.fadeIn();
+        if (times.isFirst) {
+          $nextTime.addClass('first-train').tooltip(firstTrainTooltipOpts);
+        } else {
+          $nextTime.removeClass('first-train').tooltip('destroy');
+        }
+        $nextTime.text(times.timeNext).fadeIn();
       });
     }
     if (parseInt($minutes.text(), 10) !== times.minToNext) {
       $minutes.fadeOut(200, () => {
-        $minutes.text(times.minToNext);
-        $minutes.fadeIn();
+        $minutes.text(times.minToNext).fadeIn();
       });
     }
   });
@@ -75,7 +89,16 @@ function trainAddedToSchedule(train, key) {
   $('<td>').text(train.name).appendTo($row);
   $('<td>').text(train.dest).appendTo($row);
   $('<td>').text(train.freq).appendTo($row);
-  $('<td>').text(times.timeNext).appendTo($row);
+  if (times.isFirst) {
+    $('<td>')
+      .text(times.timeNext)
+      .appendTo($row)
+      .addClass('first-train')
+      .tooltip(firstTrainTooltipOpts);
+  } else {
+    $('<td>').text(times.timeNext).appendTo($row);
+  }
+  
   $('<td>').text(times.minToNext).appendTo($row);
   $('<td>').append('<span class="glyphicon glyphicon-remove pointer" aria-hidden="true"></span>').appendTo($row);
   $row.fadeIn('slow');
