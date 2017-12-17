@@ -1,11 +1,15 @@
+body {
+    padding-bottom: 70px;
+}
+
 .container {
-  min-width: 430px;
+    min-width: 430px;
 }
 
 .pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .first-train:after {
-  content: "*";
+    content: "*";
 }
