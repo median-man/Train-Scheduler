@@ -6,8 +6,8 @@ data in real time without refreshing the page.
 See a live demo of the app [here](https://median-man.github.io/Train-Scheduler/).
 
 The Train Scheduler connects to Firebase and loads the list of all the
-current trains entered by users. The app will continue to add trains to the list
-whenever a new train gets added to the database by any user.
+current trains in the database. Trains are added to and removed from the display
+in real time as they are added/removed from the database.
 
 Trains may be added to the database using the provided form on the 
 page.
@@ -20,4 +20,5 @@ The Momentjs library is used for calculating and displaying times.
 * [jQuery](http://jquery.com/)
 * [Momentjs](https://momentjs.com/)
 
-Authored by John Desrosiers.
+---
+Created by John Desrosiers
