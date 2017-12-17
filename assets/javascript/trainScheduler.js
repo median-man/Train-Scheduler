@@ -89,10 +89,6 @@ $(document).ready(() => {
   // get form data and save it to the database whenever user clicks submit
   $('#btnSubNewTrain').on('click', (event) => {
     event.preventDefault();
-
-    // convert time to unix timestamp
-    // let firstTime = $('#txtFirstTrain').val().trim();
-    // firstTime = moment(firstTime, 'H:mm').unix();
     
     // get user input and pass it to handler 
     addNewTrain({
@@ -106,8 +102,3 @@ $(document).ready(() => {
     $('#txtTrainName, #txtDestination, #txtFirstTrain, #txtFrequency').val('');
   });
 });
-
-// TODO Bug Fix:
-//    Bug where next arrival is inccorrect. Current time was 7:41 AM. Added train with first 
-//    time of 7:43 and interval of 10 min. Scheduled a next arrival of 7:52 AM. with minutes away of 11.
-//    * check math for cases where start time falls after current time.
