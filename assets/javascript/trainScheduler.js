@@ -65,10 +65,12 @@ function trainAddedToSchedule(train, key) {
   const times = getTimes(train.firstTime, train.freq);
 
   // add row to table and store train data with the row
-  const $row = $('<tr>').attr('id', key)
+  const $row = $('<tr>', {
+    id: key,
+    css: { display: 'none' },
+    class: 'train',
+  })
     .data({ tsFirstTrain: train.firstTime, frequency: train.freq })
-    .addClass('train')
-    .hide()
     .appendTo('tbody');
   $('<td>').text(train.name).appendTo($row);
   $('<td>').text(train.dest).appendTo($row);
@@ -76,12 +78,12 @@ function trainAddedToSchedule(train, key) {
   $('<td>').text(times.timeNext).appendTo($row);
   $('<td>').text(times.minToNext).appendTo($row);
   $('<td>').append('<span class="glyphicon glyphicon-remove pointer" aria-hidden="true"></span>').appendTo($row);
-  $row.fadeIn();
+  $row.fadeIn('slow');
 }
 
 // Function to remove a row from the train table.
 function trainRemoved(key) {
-  $(`#${key}`).fadeOut().slideUp(() => $(`#${key}`).remove());
+  $(`#${key}`).fadeOut('slow', () => $(`#${key}`).remove());
 }
 
 // Remove train from database when remove icon is clicked.
