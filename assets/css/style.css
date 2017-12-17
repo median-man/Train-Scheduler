@@ -1,9 +1,74 @@
 body {
     padding-bottom: 70px;
+    background: url('../images/background.jpg') no-repeat fixed center;
+    background-size: cover;
 }
 
 .container {
     min-width: 430px;
+}
+
+.jumbotron,
+.panel {
+    background: rgba(162, 160, 151, 0.86);
+    color: #fff;
+}
+
+.panel {
+    border: none;
+}
+
+.panel-primary>.panel-heading {
+    color: #fff;
+    background-color: #d3be76;
+    border: none;
+}
+
+a:focus {
+  outline-color: #ffdd00;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: rgba(126, 123, 111, 0.86);
+}
+
+.form-control:focus {
+    border-color: #fdd961;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #d3be76;
+    border-color: #8d8053;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #bba869;
+    border-color: #83774e;
+}
+
+.btn.focus,
+.btn:focus,
+.btn:hover {
+    color: #333;
+    text-decoration: none;
+    outline-color: #ffdd00;
+}
+a:focus
+.btn-primary.focus,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #bba869;
+    border-color: #83774e;
+}
+
+.btn-primary:active:focus,
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary {
+    background-color: #b09e62;
+    border-color: #71663f;
 }
 
 .pointer {
