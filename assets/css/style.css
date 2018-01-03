@@ -25,7 +25,7 @@ body {
 }
 
 a:focus {
-  outline-color: #ffdd00;
+    outline-color: #ffdd00;
 }
 
 .table-hover>tbody>tr:hover {
@@ -55,8 +55,8 @@ a:focus {
     text-decoration: none;
     outline-color: #ffdd00;
 }
-a:focus
-.btn-primary.focus,
+
+a:focus .btn-primary.focus,
 .btn-primary:focus {
     color: #fff;
     background-color: #bba869;
@@ -77,4 +77,34 @@ a:focus
 
 .first-train:after {
     content: "*";
+}
+
+
+/* github corner styles: http://tholman.com/github-corners/ */
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+    0%,
+    100% {
+        transform: rotate(0)
+    }
+    20%,
+    60% {
+        transform: rotate(-25deg)
+    }
+    40%,
+    80% {
+        transform: rotate(10deg)
+    }
+}
+
+@media (max-width:500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
 }
