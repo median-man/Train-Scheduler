@@ -125,8 +125,8 @@ $(document).ready(() => {
   // remove train from display if train remove from database
   database.ref().on('child_removed', trainSnap => trainRemoved(trainSnap.key));
 
-  // update train times every 5 seconds
-  setInterval(updateTimes, 5000);
+  // update train times every second
+  setInterval(updateTimes, 1000);
 
   // get form data and save it to the database whenever user clicks submit
   $('#btnSubNewTrain').on('click', (event) => {
