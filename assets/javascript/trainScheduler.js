@@ -29,9 +29,9 @@ function getTimes(tsFirst, frequency) {
   const mNow = moment();
   const mFirstTrain = moment.unix(tsFirst);
   const minElapsed = mNow.diff(mFirstTrain, 'minutes');
-  let minToNext = frequency - minElapsed % frequency;
+  let minToNext = frequency - (minElapsed % frequency);
   let timeNext = mNow.add(minToNext, 'm');
-  let isFirst = mNow.isBefore(mFirstTrain, 'minute');
+  const isFirst = mNow.isBefore(mFirstTrain, 'minute');
   if (isFirst) {
     timeNext = mFirstTrain;
     minToNext = -minElapsed;
@@ -50,7 +50,7 @@ function updateTimes() {
     const $nextTime = $row.children().eq(3);
     const $minutes = $row.children().eq(4);
     const times = getTimes(trainData.tsFirstTrain, trainData.frequency);
-    
+
     // update text with fade in/out if value changed
     if ($nextTime.text() !== times.timeNext) {
       $nextTime.fadeOut(200, () => {
@@ -71,7 +71,9 @@ function updateTimes() {
 }
 
 // Appends train to table
-function trainAddedToSchedule(train, key) {
+function trainAddedToSchedule(trainData, key) {
+  const train = trainData;
+
   // convert time to time stamp
   train.firstTime = moment(train.firstTime, 'H:mm').unix();
 
@@ -98,7 +100,7 @@ function trainAddedToSchedule(train, key) {
   } else {
     $('<td>').text(times.timeNext).appendTo($row);
   }
-  
+
   $('<td>').text(times.minToNext).appendTo($row);
   $('<td>').append('<span class="glyphicon glyphicon-remove pointer" aria-hidden="true"></span>').appendTo($row);
   $row.fadeIn('slow');
@@ -113,7 +115,7 @@ function trainRemoved(key) {
 $(document).on('click', '.glyphicon-remove', function handleRemoveClick() {
   // the id of the containing row is the key for the database record
   const key = $(this).parents('tr').attr('id');
-  database.ref(key).remove();  
+  database.ref(key).remove();
 });
 
 $(document).ready(() => {
@@ -129,13 +131,13 @@ $(document).ready(() => {
   // get form data and save it to the database whenever user clicks submit
   $('#btnSubNewTrain').on('click', (event) => {
     event.preventDefault();
-    
-    // get user input and pass it to handler 
+
+    // get user input and pass it to handler
     addNewTrain({
       name: $('#txtTrainName').val().trim(),
       dest: $('#txtDestination').val().trim(),
       firstTime: $('#txtFirstTrain').val().trim(),
-      freq: parseInt($('#txtFrequency').val().trim()),
+      freq: parseInt($('#txtFrequency').val().trim(), 10),
     });
 
     // reset the form
